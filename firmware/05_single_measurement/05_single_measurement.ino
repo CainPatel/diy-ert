@@ -1,4 +1,4 @@
-// 05 — Single measurement
+// 05: Single measurement
 // Verifies: the whole signal chain, end to end, against a known resistor.
 // On the 100 ohm bench target this build reported 98.56 ohm (1.4% error).
 //
@@ -34,7 +34,7 @@ const int N_STACK = 20;
 const int SETTLE_MS = 100;         // half-cycle ~150 ms including the read
 const float SHUNT_OHMS = 1000.0;
 
-// Amplifier gain, MEASURED during calibration — not the trimmer's nominal
+// Amplifier gain, MEASURED during calibration, not the trimmer's nominal
 // setting: (3.5483 - 0.8205) / 0.0358 = 76 on this build. Re-derive yours
 // per docs/calibration.md; this number is wrong for any other unit.
 const float AMP_GAIN = 76.0;
@@ -145,7 +145,7 @@ void setup() {
   Serial.begin(9600);
   while (!Serial) {}
   if (!ads.begin(0x48)) {
-    Serial.println("ADS1115 not found at 0x48 — go back to sketch 00.");
+    Serial.println("ADS1115 not found at 0x48. Go back to sketch 00.");
     while (true) {}
   }
   ads.setGain(GAIN_TWOTHIRDS);

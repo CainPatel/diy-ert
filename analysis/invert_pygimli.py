@@ -4,7 +4,7 @@ Usage:
     python invert_pygimli.py [survey.dat]
 
 The input is the verbatim serial capture from firmware sketch 06, in
-pyGIMLi's unified data format — see README.md in this directory for the
+pyGIMLi's unified data format. See README.md in this directory for the
 exact layout and the 1-indexing caveat.
 """
 
@@ -19,7 +19,7 @@ data = ert.load(filename)
 mgr = ert.ERTManager(data)
 
 # High lambda: with only ~18 measurements the problem is badly
-# underdetermined — too low a lambda and the inversion fits noise,
+# underdetermined: too low a lambda and the inversion fits noise,
 # drawing structure that is not in the ground. Keep the model smooth.
 mgr.invert(lam=20)
 mgr.showResult()

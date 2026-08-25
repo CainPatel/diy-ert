@@ -1,11 +1,11 @@
-// 00 — I2C scanner
+// 00: I2C scanner
 // Verifies: the ADS1115 is alive and answering at 0x48.
 // Run this FIRST. It needs only the Arduino, the ADS1115 breakout, and
 // two I2C wires (Mega: SDA = 20, SCL = 21).
 //
 // If nothing is found: check power to the breakout, SDA/SCL wiring, and
 // the solder joints on the breakout headers. Press-fitted, unsoldered
-// header pins pass visual inspection and fail electrically — that exact
+// header pins pass visual inspection and fail electrically; that exact
 // fault cost this project several days (see docs/failure-log.md).
 
 #include <Wire.h>

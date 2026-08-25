@@ -1,4 +1,4 @@
-// 06 — Wenner survey
+// 06: Wenner survey
 // Runs the full measurement sequence over the working electrode channels
 // and prints an inversion-ready dataset in pyGIMLi's unified data format.
 // Capture the serial output verbatim into survey.dat and feed it to
@@ -6,7 +6,7 @@
 //
 // The survey runs from loop() behind a done-flag, not from setup(), so
 // output is not lost if the serial monitor attaches late: it waits for
-// 's' before starting. The serial output IS the data file — this sketch
+// 's' before starting. The serial output IS the data file; this sketch
 // prints nothing else.
 
 #include <Wire.h>
@@ -29,7 +29,7 @@ const float ELECTRODE_SPACING = 0.5;  // metres between adjacent electrodes
 const float AMP_GAIN = 76.0;
 
 // Working channel map from the physical build.
-// Dead: 0, 7, 11, 12 (breadboard contact faults — the dead numbers share
+// Dead: 0, 7, 11, 12 (breadboard contact faults; the dead numbers share
 // no common address bit, which is what ruled out chip and addressing
 // faults). Logical electrode position i along the line is wired to mux
 // channel CH[i], so dead channels are invisible to the survey logic and
@@ -73,7 +73,7 @@ float readShuntAmps() {
 // Same stacked measurement as sketch 05, silent (the serial stream is the
 // data file). See 05_single_measurement for the annotated version.
 float measureOhms() {
-  float vSum = 0.0;  // accumulators initialised — uninitialised floats are garbage
+  float vSum = 0.0;  // accumulators initialised; uninitialised floats are garbage
   float iSum = 0.0;
 
   for (int n = 0; n < N_STACK; n++) {

@@ -1,4 +1,4 @@
-// 04 — Live amplifier tuning
+// 04: Live amplifier tuning
 // Verifies: the AD620 is operating inside its input range and its output
 // responds to both injection polarities.
 //
@@ -7,11 +7,11 @@
 // docs/calibration.md: offset FIRST, with no current flowing; then gain.
 //
 // Failure signature: both half-cycles reading ~3.6 V means the amp is
-// saturated. That is an offset problem, not a gain problem — the gain
+// saturated. That is an offset problem, not a gain problem; the gain
 // trimmer changes nothing while the output is pinned.
 //
 // Healthy output after calibration: the two polarities land around 1.5 V
-// and 3.5 V — clearly separated, not clipping either rail.
+// and 3.5 V, clearly separated, not clipping either rail.
 
 #include <Wire.h>
 #include <Adafruit_ADS1X15.h>
@@ -71,7 +71,7 @@ void setup() {
   Serial.begin(9600);
   while (!Serial) {}
   if (!ads.begin(0x48)) {
-    Serial.println("ADS1115 not found at 0x48 — go back to sketch 00.");
+    Serial.println("ADS1115 not found at 0x48. Go back to sketch 00.");
     while (true) {}
   }
   ads.setGain(GAIN_TWOTHIRDS);  // 0-5 V amp output needs the +/-6.144 V range

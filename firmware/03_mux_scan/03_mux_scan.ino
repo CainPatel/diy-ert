@@ -1,4 +1,4 @@
-// 03 — Mux channel scan
+// 03: Mux channel scan
 // Verifies: address decoding and channel continuity on all four
 // CD74HC4067 multiplexers.
 //
@@ -7,7 +7,7 @@
 // the selected electrode header with a multimeter.
 //
 // Failure signature: if every channel reads identically at the ADC,
-// measure at the mux common pin directly, NOT through the amplifier — a
+// measure at the mux common pin directly, NOT through the amplifier; a
 // saturated amp makes all channels look the same regardless of what the
 // mux is doing.
 //

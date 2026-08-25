@@ -1,6 +1,6 @@
-// 01 — Raw ADC readout
+// 01: Raw ADC readout
 // Verifies: the ADS1115 converts a known voltage correctly on the inputs
-// this instrument actually uses — A0 single-ended (amplifier output) and
+// this instrument actually uses: A0 single-ended (amplifier output) and
 // A2/A3 differential (current shunt).
 //
 // Feed A0 a known voltage (the 2.5 V mid-rail is convenient) and confirm
@@ -19,13 +19,13 @@ void setup() {
   Serial.begin(9600);
   while (!Serial) {}
   if (!ads.begin(0x48)) {
-    Serial.println("ADS1115 not found at 0x48 — go back to sketch 00.");
+    Serial.println("ADS1115 not found at 0x48. Go back to sketch 00.");
     while (true) {}
   }
   // GAIN_TWOTHIRDS: +/-6.144 V full scale, 0.1875 mV/bit. The amp output
   // spans 0-5 V, so this is the only range that covers it without
   // clipping the reading. (The pin itself must still never exceed
-  // VDD + 0.3 V — the gain setting changes the readable range, not the
+  // VDD + 0.3 V; the gain setting changes the readable range, not the
   // absolute maximum. See docs/hardware.md, constraint 1.)
   ads.setGain(GAIN_TWOTHIRDS);
   Serial.println("A0_raw  A0_V     A1_raw  A1_V     A2-A3_raw  A2-A3_V");

@@ -1,101 +1,114 @@
-# DIY Electrical Resistivity Tomography
+# diy-ert
 
-A four-electrode (Wenner array) earth-resistivity meter built from discrete
-parts in about a month, for roughly $150. Commercial instruments that make
-the same measurement start above $20,000.
+<!-- photo of the breadboard build / field setup goes here -->
 
-This repository is an engineering log, not a product. Four ADS1115 ADC chips
-were destroyed during development — all by the same root cause, a
-voltage-domain mismatch — and the [failure log](docs/failure-log.md)
-explaining that and every other failure is the most useful document here.
-Read it before you power anything.
+A four electrode earth resistivity meter (Wenner array) built from scratch
+in about a month, for roughly $150 in parts. Commercial instruments that
+make the same measurement start above $20,000.
 
-## What it demonstrably does
+This repo is written as an engineering log. Four ADS1115 ADCs died during
+development, all from the same root cause, and the
+[failure log](docs/failure-log.md) is probably the most useful file here.
+Read it before powering anything up.
 
-- **Bench validation: 98.6 Ω measured against a known 100 Ω resistor
-  (1.4% error).** The instrument computed this from its own current and
-  voltage readings, using a gain value measured with a multimeter rather
-  than taken from the trimmer setting.
-- **Field result: 71–72 Ω·m apparent resistivity at 0.5 m Wenner spacing,
-  in moist Georgia clay soil, with 1.24 mA injected.**
+## Results
 
-## What it does not do
+| Test | Result |
+|---|---|
+| Bench, known 100 Ω resistor | measured 98.6 Ω (1.4% error) |
+| Field, moist Georgia clay, a = 0.5 m | 71-72 Ω·m apparent resistivity, 1.24 mA injected |
 
-- **It has not produced a 2D image.** Current status: a validated
-  single-point measurement and one successful field reading.
-- 16-channel electrode multiplexing is built and partially working — 12 of
-  16 channels conduct. The four dead channels are breadboard contact
-  faults, not chip faults (see the failure log).
-- The automated Wenner survey firmware exists and emits inversion-ready
-  data over the working channels, but a 2D survey has not yet been
-  achieved.
+No 2D image yet. What exists today is a validated single point measurement
+and one good field reading. Full status below.
 
-## Why four electrodes
+## How it works
 
-The contact resistance where a steel rod meets soil measured 40–80 kΩ on
-this build. A two-electrode measurement puts that resistance directly in
-series with the ground resistance being measured — tens of kilohms swamping
-tens of ohms. The four-electrode arrangement splits the roles: current is
-injected through one pair (C1, C2) and potential is measured across a
-separate pair (P1, P2). The potential pair feeds an instrumentation
-amplifier and draws essentially no current, so no voltage drops across its
-contact resistance — it cancels out of the result entirely. The current
-pair's contact resistance only limits how much current flows, and the
-current is measured directly across a shunt rather than assumed. This is
-the central idea of the whole method.
+Contact resistance is the whole problem. Where a steel rod meets soil this
+build measured 40-80 kΩ, and a two electrode measurement puts that
+directly in series with the tens of ohms of ground you actually want. So
+the roles are split across four electrodes: current goes in through the
+outer pair (C1, C2), and the voltage it creates in the ground is read
+across a separate inner pair (P1, P2). The potential pair feeds an
+instrumentation amplifier and draws essentially no current, so its contact
+resistance drops no voltage and falls out of the result. On the current
+side, contact resistance only limits how much current flows, and the
+current is measured across a shunt rather than assumed.
 
-## Signal path
+From there it is Ohm's law: R = V/I, and apparent resistivity
+ρ = 2πa·R for electrode spacing a. Details in [docs/theory.md](docs/theory.md).
 
+```mermaid
+flowchart LR
+    mega[Arduino Mega]
+    bridge[L298N H-bridge]
+    muxa[MUX A]
+    muxb[MUX B]
+    muxcd[MUX C and D]
+    amp[AD620]
+    shunt["1 kΩ shunt"]
+    adc[ADS1115]
+    earth((earth))
+
+    mega -->|IN1, IN2| bridge
+    bridge --> muxa -->|C1| earth
+    earth -->|C2| muxb --> shunt --> bridge
+    earth -->|P1, P2| muxcd --> amp -->|A0| adc
+    shunt -.->|A2, A3| adc
+    adc -.->|I2C| mega
 ```
-Arduino Mega ──> L298N H-bridge ──> MUX A ──> C1 electrode
-                                                   │
-                                                 [earth]
-                                                   │
-             ADS1115 <── AD620 <── MUX C/D <── P1, P2 electrodes
-                 ↑                                 │
-                 └── 1 kΩ shunt <── MUX B <── C2 electrode
-```
 
-The H-bridge alternates the injection polarity; the actual injected current
-is measured across a 1 kΩ shunt; the millivolt-level potential difference
-between P1 and P2 is amplified by the AD620 (gain 76 — measured, not
-nominal) and digitised by the 16-bit ADS1115. Four 16-channel multiplexers
-let any of 16 electrodes play any of the four roles.
+The H-bridge flips the injection polarity every ~150 ms. Differencing the
+two half cycles cancels electrode self-potential and amplifier offset, and
+stacking 20 cycles averages the noise down. The AD620 stage gain is 76,
+measured with a multimeter during calibration rather than taken from the
+trimmer setting. Four 16-channel muxes let any of 16 electrodes play any
+of the four roles.
 
-## Reading order
+## Status
 
-The documentation is written to be read in sequence:
+- [x] Bench validation against a known resistor
+- [x] One field reading
+- [x] 16 channel electrode switching built, 12 of 16 channels working
+      (breadboard contact faults, see the failure log)
+- [x] Automated Wenner survey firmware, outputs pyGIMLi format
+- [ ] Non-polarising potential electrodes (steel rods drift within minutes)
+- [ ] PCB: schematic done and checked, layout in progress
+- [ ] 2D survey of real ground
 
-1. [Theory](docs/theory.md) — Ohm's law through the ground, Wenner
+## Documentation
+
+In reading order:
+
+1. [Theory](docs/theory.md): Ohm's law through the ground, Wenner
    geometry, why the polarity alternates, why stacking works
-2. [Hardware](docs/hardware.md) — the signal chain, and five design
-   constraints learned the hard way
-3. [Calibration](docs/calibration.md) — the offset/gain procedure in the
-   order that works, with the actual numbers from this build
-4. [Failure log](docs/failure-log.md) — symptom → root cause → fix, for
-   every failure including the four dead ADCs
-5. [Field procedure](docs/field-procedure.md) — how the field reading was
-   taken, and what limits survey duration
-6. [Firmware](firmware/README.md) — seven sketches that bring the
-   instrument up one verified subsystem at a time. **Run them in order.**
+2. [Hardware](docs/hardware.md): the signal chain, wiring reference, and
+   five design constraints learned the hard way
+3. [Calibration](docs/calibration.md): the offset/gain procedure in the
+   order that converges, with the numbers from this build
+4. [Failure log](docs/failure-log.md): symptom, root cause, and fix for
+   every failure, including the four dead ADCs
+5. [Field procedure](docs/field-procedure.md): how the field reading was
+   taken and what limits survey duration
+6. [Firmware](firmware/README.md): seven sketches that bring the
+   instrument up one verified subsystem at a time. Run them in order.
 
 ## Repository layout
 
 ```
 diy-ert/
 ├── docs/          theory, hardware, calibration, failure log, field procedure
-├── firmware/      seven bring-up sketches, 00 through 06 — run in order
+├── firmware/      seven bring-up sketches, 00 through 06, run in order
 ├── hardware/      PCB status, bill of materials, KiCad files
-├── analysis/      pyGIMLi inversion script and data-format notes
+├── analysis/      pyGIMLi inversion script and data format notes
 └── data/          data format spec and the one validated field reading
 ```
 
 ## Cost
 
-Roughly $150 in parts, including spares. The full bill of materials — with
-notes on which parts to buy in DIP packages so they can be socketed and
-swapped — is in [hardware/README.md](hardware/README.md).
+Roughly $150 in parts including spares. The bill of materials, with notes
+on which parts to buy in DIP packages so they can be socketed and swapped,
+is in [hardware/README.md](hardware/README.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
