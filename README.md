@@ -11,6 +11,12 @@ development, all from the same root cause, and the
 [failure log](docs/failure-log.md) is probably the most useful file here.
 Read it before powering anything up.
 
+![Custom PCB, top side](hardware/images/pcb-top.png)
+
+The custom PCB, designed after the breadboard build below produced its
+results. KiCad sources, gerbers, renders and review notes are in
+[hardware/](hardware/README.md).
+
 ## Results
 
 | Test | Result |
@@ -19,7 +25,8 @@ Read it before powering anything up.
 | Field, moist Georgia clay, a = 0.5 m | 71-72 Ω·m apparent resistivity, 1.24 mA injected |
 
 No 2D image yet. What exists today is a validated single point measurement
-and one good field reading. Full status below.
+and one good field reading, both from the breadboard build. Full status
+below.
 
 ## How it works
 
@@ -39,7 +46,7 @@ From there it is Ohm's law: R = V/I, and apparent resistivity
 
 ```mermaid
 flowchart LR
-    mega[Arduino Mega]
+    mega[Arduino]
     bridge[L298N H-bridge]
     muxa[MUX A]
     muxb[MUX B]
@@ -59,20 +66,23 @@ flowchart LR
 
 The H-bridge flips the injection polarity every ~150 ms. Differencing the
 two half cycles cancels electrode self-potential and amplifier offset, and
-stacking 20 cycles averages the noise down. The AD620 stage gain is 76,
-measured with a multimeter during calibration rather than taken from the
-trimmer setting. Four 16-channel muxes let any of 16 electrodes play any
-of the four roles.
+stacking 20 cycles averages the noise down. The AD620 stage gain is 76 on
+the breadboard build, measured with a multimeter during calibration rather
+than taken from the trimmer setting. Four 16-channel muxes let any of 16
+electrodes play any of the four roles.
 
 ## Status
 
 - [x] Bench validation against a known resistor
 - [x] One field reading
-- [x] 16 channel electrode switching built, 12 of 16 channels working
-      (breadboard contact faults, see the failure log)
+- [x] 16 channel electrode switching built on the breadboard, 12 of 16
+      channels working (contact faults, see the failure log)
 - [x] Automated Wenner survey firmware, outputs pyGIMLi format
+- [x] Custom PCB designed: Arduino Nano plus shift registers, 2 layers,
+      DRC clean, gerbers generated, firmware written and compiled
+- [ ] PCB fabricated, assembled and brought up (one design issue to settle
+      first, see the review notes in [hardware/](hardware/README.md))
 - [ ] Non-polarising potential electrodes (steel rods drift within minutes)
-- [ ] PCB: schematic done and checked, layout in progress
 - [ ] 2D survey of real ground
 
 ## Documentation
@@ -89,25 +99,34 @@ In reading order:
    every failure, including the four dead ADCs
 5. [Field procedure](docs/field-procedure.md): how the field reading was
    taken and what limits survey duration
-6. [Firmware](firmware/README.md): seven sketches that bring the
-   instrument up one verified subsystem at a time. Run them in order.
+6. [Build guide](docs/assembly.md): power, physical layout, every
+   connection pin by pin, assembly order, pre-power checklist
+7. [Software guide](docs/software.md): toolchain, uploading, the
+   bring-up walkthrough, capturing a survey, running the inversion
+8. [Firmware](firmware/README.md): seven bring-up sketches for the
+   breadboard and one for the PCB. Run them in order.
+9. [PCB](hardware/README.md): the board, what changed from the
+   breadboard, shift register wiring, BOM, fabrication, review notes
 
 ## Repository layout
 
 ```
 diy-ert/
-├── docs/          theory, hardware, calibration, failure log, field procedure
-├── firmware/      seven bring-up sketches, 00 through 06, run in order
-├── hardware/      PCB status, bill of materials, KiCad files
-├── analysis/      pyGIMLi inversion script and data format notes
+├── docs/          theory, hardware, calibration, failure log, field
+│                  procedure, build guide, software guide
+├── firmware/      bring-up sketches 00-06 (Mega breadboard), 07 (Nano PCB)
+├── hardware/      PCB: KiCad sources, gerbers, renders, schematic PDF,
+│                  BOM, DRC/ERC reports
+├── analysis/      pyGIMLi inversion script, capture cleaner, format notes
 └── data/          data format spec and the one validated field reading
 ```
 
 ## Cost
 
-Roughly $150 in parts including spares. The bill of materials, with notes
-on which parts to buy in DIP packages so they can be socketed and swapped,
-is in [hardware/README.md](hardware/README.md).
+Roughly $150 in parts including spares. The PCB bill of materials is in
+[hardware/README.md](hardware/README.md); the parts that are not on the
+board (rods, supply, wire, the breadboard-only trimmers) are listed in
+the [build guide](docs/assembly.md).
 
 ## License
 

@@ -1,0 +1,22 @@
+** Drc report for diy-ert.kicad_pcb **
+** Created on 2026-09-10T12:13:31 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 1 DRC violations **
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(106.0000 mm, 29.3600 mm): Reference field of U2
+    @(103.2300 mm, 26.1300 mm): Rectangle of R6 on F.Silkscreen
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

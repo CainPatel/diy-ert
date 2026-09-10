@@ -12,3 +12,6 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# KiCad local history (KiCad 10)
+.history/

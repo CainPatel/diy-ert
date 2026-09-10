@@ -1,8 +1,11 @@
 # Hardware
 
 The signal chain, in the order the signal flows through it, plus enough
-wiring detail to reproduce the breadboard build. The KiCad schematic
-belongs in [hardware/kicad/](../hardware/kicad/).
+wiring detail to reproduce the breadboard build. The custom PCB that
+implements the same circuit is documented in
+[hardware/README.md](../hardware/README.md), with KiCad sources in
+[hardware/kicad/](../hardware/kicad/); the full pin-by-pin connection
+list for both builds is in [assembly.md](assembly.md).
 
 ## Signal chain
 
@@ -141,6 +144,24 @@ pins go to the 16 electrode headers, EN to GND, S0-S3 to the Arduino (pin
 map in [firmware/README.md](../firmware/README.md)). Only the common pin
 differs per mux: A to bridge OUT1, B to the shunt, C to AD620 IN+, D to
 AD620 IN-.
+
+## The PCB
+
+The same circuit on a 2-layer board, 127 x 118 mm, all through-hole,
+with three differences that matter to anyone using the docs above:
+
+- The Arduino Mega and its 18 direct control lines are replaced by an
+  Arduino Nano and three chained 74HC595 shift registers on 3 pins. The
+  registers drive the 16 mux select lines and the L298N's IN1/IN2.
+- The trimmers are gone. AD620 gain is fixed by a 1 kΩ resistor (50.4
+  nominal, to be measured) and the reference is a fixed 10k/10k divider
+  into the LM358 buffer. Calibration reduces to measuring the gain.
+- The L298N is the bare chip rather than a driver module, and the
+  ADS1115 breakout plugs into a socket.
+
+Schematic, renders, gerbers, design-rule and ERC reports, and a list of
+review notes to read before ordering are in
+[hardware/README.md](../hardware/README.md).
 
 ---
 

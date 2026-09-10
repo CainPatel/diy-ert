@@ -1,0 +1,93 @@
+ERC report (2026-09-10T12:13:29, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(80.01 mm, 11.43 mm): Symbol A2 Pin 30 [VIN, Power input, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(95.25 mm, 21.59 mm): Symbol A2 Pin 28 [~{RESET}, Input, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(95.25 mm, 24.13 mm): Symbol A2 Pin 3 [~{RESET}, Input, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(95.25 mm, 31.75 mm): Symbol A2 Pin 18 [AREF, Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(157.48 mm, 29.21 mm): Symbol U3 Pin 4 [Vs, Power input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 21.59 mm): Symbol A2 Pin 2 [D0/RX, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 24.13 mm): Symbol A2 Pin 1 [D1/TX, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 34.29 mm): Symbol A2 Pin 8 [D5, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 36.83 mm): Symbol A2 Pin 9 [D6, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 39.37 mm): Symbol A2 Pin 10 [D7, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 41.91 mm): Symbol A2 Pin 11 [D8, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(69.85 mm, 44.45 mm): Symbol A2 Pin 12 [D9, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(80.01 mm, 11.43 mm): Symbol A2 Pin 30 [VIN, Power input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(85.09 mm, 11.43 mm): Symbol A2 Pin 17 [3V3, Power output, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 21.59 mm): Symbol A2 Pin 28 [~{RESET}, Input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 24.13 mm): Symbol A2 Pin 3 [~{RESET}, Input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 31.75 mm): Symbol A2 Pin 18 [AREF, Input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 36.83 mm): Symbol A2 Pin 19 [A0, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 39.37 mm): Symbol A2 Pin 20 [A1, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 41.91 mm): Symbol A2 Pin 21 [A2, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 44.45 mm): Symbol A2 Pin 22 [A3, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 52.07 mm): Symbol A2 Pin 25 [A6, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(95.25 mm, 54.61 mm): Symbol A2 Pin 26 [A7, Bidirectional, Line]
+[ground_pin_not_ground]: Pin Vss not connected to ground net
+    ; warning
+    @(154.94 mm, 29.21 mm): Symbol U3 Pin 9 [Vss, Power input, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(166.37 mm, 154.94 mm): Symbol U1 Pin 2 [ALERT/RDY, Output, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(170.18 mm, 49.53 mm): Symbol U3 Pin 13 [OUT3, Output, Line]
+[pin_not_connected]: Pin not connected
+    ; warning
+    @(170.18 mm, 52.07 mm): Symbol U3 Pin 14 [OUT4, Output, Line]
+
+ ** ERC messages: 27  Errors 5  Warnings 22
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters
