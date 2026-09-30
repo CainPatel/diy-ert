@@ -80,7 +80,7 @@ electrodes play any of the four roles.
 - [x] Automated Wenner survey firmware, outputs pyGIMLi format
 - [x] Custom PCB designed: Arduino Nano plus shift registers, 2 layers,
       DRC clean, gerbers generated, firmware written and compiled
-- [ ] PCB fabricated, assembled and brought up (one design issue to settle
+- [x] PCB fabricated, assembled and brought up (one design issue to settle
       first, see the review notes in [hardware/](hardware/README.md))
 - [ ] Non-polarising potential electrodes (steel rods drift within minutes)
 - [ ] 2D survey of real ground
